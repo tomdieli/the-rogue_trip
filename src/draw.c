@@ -32,7 +32,11 @@ void draw_others(Entity* others)
   for (size_t i = 0; i < num_monsters; i++)
   {
     Entity monster = others[i];
-    mvaddch(monster.pos.y, monster.pos.x, monster.ch | monster.color);
+    // Only draw the monster if its tile is visible
+    if (map[monster.pos.y][monster.pos.x].visible)
+    {
+      mvaddch(monster.pos.y, monster.pos.x, monster.ch | monster.color);
+    }
   }
 }
 

@@ -61,6 +61,7 @@ typedef struct
 //draw.c functions
 void drawMap(void);
 void drawEntity(Entity* entity);
+void draw_others(Entity* others);
 void drawEverything(void);
 
 //engine.c functions

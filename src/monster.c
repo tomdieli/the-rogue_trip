@@ -39,6 +39,7 @@ void createMonster(Position room_dims)
     // Add the new monster to the array
     monsters[num_monsters] = *newMonster;
     map[newMonster->pos.y][newMonster->pos.x].walkable = false;
+    map[newMonster->pos.y][newMonster->pos.x].visible = false;
     num_monsters++;
 }
 
