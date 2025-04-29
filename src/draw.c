@@ -1,5 +1,7 @@
 #include <rogue.h>
 
+char status_message[100] = "Welcome to the Rogue-like game!";
+
 void drawMap(void)
 { 
   for (int y = 0; y < MAP_HEIGHT; y++)
@@ -43,8 +45,32 @@ void draw_others(Entity* others)
 void draw_info_box(WINDOW* player_info)
 {
   box(player_info, 0, 0);
+  // Display player stats inside the subwindow
   wmove(player_info, 1, 1);
-  wprintw(player_info, "This is a subwindow");
+  wprintw(player_info, "Player Info:");
+
+  wmove(player_info, 2, 1);
+  wprintw(player_info, "STR: %d", player->st);
+
+  wmove(player_info, 3, 1);
+  wprintw(player_info, "DEX: %d", player->dx);
+
+  wmove(player_info, 4, 1);
+  wprintw(player_info, "Gold: %d", player->gold);
+}
+
+void draw_status_box(WINDOW* status_box, const char* message)
+{
+    box(status_box, 0, 0);
+    // Display the status message inside the subwindow
+    wmove(status_box, 1, 1);
+    wprintw(status_box, "Status:");
+
+    wmove(status_box, 2, 1);
+    wprintw(status_box, "%s", message);
+
+    // Refresh the subwindow to display the changes
+    wrefresh(status_box);
 }
 
 void drawEverything(void)
@@ -54,4 +80,5 @@ void drawEverything(void)
   drawEntity(player);
   draw_others(monsters);
   draw_info_box(player_info);
+  draw_status_box(status_box, status_message);
 }

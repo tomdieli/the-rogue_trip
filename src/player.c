@@ -46,13 +46,34 @@ void handleInput(int input)
 }
 
 void movePlayer(Position newPos)
-{ 
+{
+  // Check if the player encounters a monster
+  for (int i = 0; i < num_monsters; i++)
+  {
+      if (monsters[i].pos.y == newPos.y && monsters[i].pos.x == newPos.x)
+      {
+          combatPhase(player, &monsters[i]);
+          return; // Exit the function after combat
+      }
+  }
+  
+  if (map[newPos.y][newPos.x].ch == '$') {
+    // Collect the treasure
+    for (int i = 0; i < 10; i++) {
+        if (treasures[i].pos.y == newPos.y && treasures[i].pos.x == newPos.x) {
+            player->gold += treasures[i].gp;    // Add gold to the player
+            map[newPos.y][newPos.x].ch = '.';   // Remove the treasure from the map
+            snprintf(status_message, 100, "You collected %d gold!", treasures[i].gp);
+            break;
+        }
+    }
+  }
   if (map[newPos.y][newPos.x].walkable)
   {
     clearFOV(player);
-    player->pos.y = newPos.y;
-    player->pos.x = newPos.x;
+    player->pos = newPos;
     makeFOV(player);
   }
+  
 }
 

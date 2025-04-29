@@ -9,4 +9,4 @@ Entity* player = NULL;
 Entity* monsters = NULL;
 int num_monsters = 0;
 WINDOW* player_info = NULL;
-WINDOW* game_status = NULL;
+WINDOW* status_box = NULL;

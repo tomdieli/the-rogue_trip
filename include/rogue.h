@@ -88,6 +88,7 @@ void createMonster(Position room_dims);
 Room createRoom(int y, int x, int height, int width);
 void addRoomToMap(Room room);
 void connectRoomCenters(Position centerOne, Position centerTwo);
+void placeTreasures(int num_treasures);
 
 // fov.c functions
 void makeFOV(Entity* player);
@@ -96,6 +97,9 @@ int getDistance(Position origin, Position target);
 bool isInMap(int y, int x);
 bool lineOfSight(Position origin, Position target);
 int getSign(int a);
+
+// combat.c functions
+void combatPhase(Entity* player, Entity* monster);
 
 // externs
 extern const int MAP_HEIGHT;
@@ -107,6 +111,7 @@ extern Treasure* treasures;
 extern Entity* monsters;
 extern int num_monsters;
 extern WINDOW* player_info;
-extern WINDOW* game_status;
+extern WINDOW* status_box;
+extern char status_message[100];
 
 #endif
