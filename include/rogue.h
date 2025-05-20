@@ -62,6 +62,9 @@ typedef struct
 void drawMap(void);
 void drawEntity(Entity* entity);
 void draw_others(Entity* others);
+void draw_info_box(WINDOW* player_info);
+void draw_status_box(WINDOW* status_box);
+void drawPlayerInfo(void);
 void drawEverything(void);
 
 //engine.c functions
@@ -100,6 +103,7 @@ int getSign(int a);
 
 // combat.c functions
 void combatPhase(Entity* player, Entity* monster);
+int attack(int attack_dx);
 
 // externs
 extern const int MAP_HEIGHT;

@@ -59,7 +59,7 @@ void draw_info_box(WINDOW* player_info)
   wprintw(player_info, "Gold: %d", player->gold);
 }
 
-void draw_status_box(WINDOW* status_box, const char* message)
+void draw_status_box(WINDOW* status_box)
 {
     box(status_box, 0, 0);
     // Display the status message inside the subwindow
@@ -67,7 +67,7 @@ void draw_status_box(WINDOW* status_box, const char* message)
     wprintw(status_box, "Status:");
 
     wmove(status_box, 2, 1);
-    wprintw(status_box, "%s", message);
+    wprintw(status_box, "%s", status_message);
 
     // Refresh the subwindow to display the changes
     wrefresh(status_box);
@@ -80,5 +80,5 @@ void drawEverything(void)
   drawEntity(player);
   draw_others(monsters);
   draw_info_box(player_info);
-  draw_status_box(status_box, status_message);
+  draw_status_box(status_box);
 }
