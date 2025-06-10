@@ -1,44 +1,46 @@
-// filepath: /home/tom/projects/the_rogue_trip/tests/test_runner.c
 #include "unity.h"
 #include "rogue.h"
 
-// Declare test functions from other test files
+// Declare all test functions
 void test_createRoom(void);
 void test_addRoomToMap(void);
 void test_connectRoomCenters(void);
-void test_getDistance(void);
-void test_isInMap(void);
-void test_getSign(void);
+void test_attack_success(void);
+void test_attack_failure(void);
+void test_combat_damage(void);
+void test_createMapTiles(void);
+void test_map_boundaries(void);
+void test_map_walkable_tiles(void);
 
 void setUp(void) {
-    // Example: Initialize a mock map
-    map = malloc(MAP_HEIGHT * sizeof(Tile*));
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        map[i] = malloc(MAP_WIDTH * sizeof(Tile));
-    }
+    map = createMapTiles();
+    player = createPlayer((Position){5, 5});
+    monsters = malloc(sizeof(Entity));
 }
 
 void tearDown(void) {
-    // Example: Free the mock map
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        free(map[i]);
-    }
-    free(map);
+    freeMap();
+    free(player);
+    free(monsters);
 }
 
 int main(void) {
     UNITY_BEGIN();
-
-    // Add tests from test_room.c
+    
+    // Room tests
     RUN_TEST(test_createRoom);
     RUN_TEST(test_addRoomToMap);
     RUN_TEST(test_connectRoomCenters);
-
-    // Add tests from test_utils.c
-    RUN_TEST(test_getDistance);
-    RUN_TEST(test_isInMap);
-    RUN_TEST(test_getSign);
-
-
+    
+    // Combat tests
+    RUN_TEST(test_attack_success);
+    RUN_TEST(test_attack_failure);
+    RUN_TEST(test_combat_damage);
+    
+    // Map tests
+    RUN_TEST(test_createMapTiles);
+    RUN_TEST(test_map_boundaries);
+    RUN_TEST(test_map_walkable_tiles);
+    
     return UNITY_END();
 }

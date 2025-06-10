@@ -1,25 +1,40 @@
 CC = gcc
-CFLAGS = -lncurses -lm -I./include/ -I./libs/unity/
+CFLAGS = -Wall -Wextra
+LDFLAGS = -lncurses -lm
+INCLUDES = -I./include/ -I./libs/unity/
+
 SOURCES = $(wildcard ./src/*.c)
-TEST_SOURCES = $(filter-out ./src/main.c, $(SOURCES)) # Exclude main.c for tests
-TEST_SRC = tests/test_runner.c tests/test_utils.c tests/test_room.c tests/test_mocks.c
+OBJECTS = $(SOURCES:.c=.o)
+
+TEST_SOURCES = $(filter-out ./src/main.c, $(SOURCES))
+TEST_FILES = tests/test_runner.c \
+            tests/test_room.c \
+            tests/test_combat.c \
+            tests/test_map.c \
+            tests/test_helpers.c
+TEST_OBJECTS = $(TEST_SOURCES:.c=.o) $(TEST_FILES:.c=.o)
 UNITY_SRC = libs/unity/unity.c
 
-all: rogue run clean
+.PHONY: all clean test debug run
 
-rogue: $(SOURCES)
-	$(CC) $(SOURCES) $(CFLAGS) -o rogue
+all: rogue
 
-test: $(TEST_SRC) $(UNITY_SRC) $(TEST_SOURCES)
-	$(CC) $(TEST_SRC) $(UNITY_SRC) $(TEST_SOURCES) $(CFLAGS) -o test_runner
+%.o: %.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c $< -o $@
+
+rogue: $(OBJECTS)
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+
+test: $(TEST_OBJECTS) $(UNITY_SRC)
+	$(CC) $(TEST_OBJECTS) $(UNITY_SRC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) -o test_runner
 	./test_runner
 
-debug:
-	$(CC) $(SOURCES) $(CFLAGS) -g -o rogue
+debug: CFLAGS += -g
+debug: clean rogue
 	gdb rogue
 
-run:
+run: rogue
 	./rogue
 
 clean:
-	rm -f rogue test_runner
+	rm -f $(OBJECTS) $(TEST_OBJECTS) rogue test_runner
